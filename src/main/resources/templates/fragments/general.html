@@ -38,7 +38,7 @@
             </a>
 
             <a th:href="@{/user/all}" class="nav-link"
-               th:classappend="${activePage == 'users'} ? ' active' : ''"
+               th:classappend="${activePage == 'user'} ? ' active' : ''"
             sec:authorize="hasRole('ADMIN')">
                 <i class="bi bi-people-fill"></i> Gebruikersbeheer
             </a>

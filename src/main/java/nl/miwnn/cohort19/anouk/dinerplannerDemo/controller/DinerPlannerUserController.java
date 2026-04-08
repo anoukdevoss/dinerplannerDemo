@@ -15,7 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * Handle all HTTP requests regarding DinerPlannerUsers
  */
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class DinerPlannerUserController {
 
     private final DinerPlannerUserService dinerPlannerUserService;
@@ -65,7 +65,7 @@ public class DinerPlannerUserController {
                 "Gebruiker '" + dto.getUsername() + "' is aangemaakt."
         );
 
-        return "redirect:/users/all";
+        return "redirect:/user/all";
     }
 
     @PostMapping("/delete/{id}")
@@ -80,6 +80,6 @@ public class DinerPlannerUserController {
                 "Gebruiker verwijderd."
         );
 
-        return "redirect:/users/all";
+        return "redirect:/user/all";
     }
 }
