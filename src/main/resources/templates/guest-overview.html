@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseheader(~{:: title})}">
+    <title>Gastenoverzicht</title>
+</head>
+<body>
+<nav th:replace="~{fragments/general :: navbar}"></nav>
+
+<div class="container">
+    <h1>Gasten</h1>
+
+    <h2>Overzicht van gasten</h2>
+    <table>
+        <thead>
+        <tr>
+            <td>Voornaam</td>
+            <td>Achternaam</td>
+            <td>Profielfoto</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="guest : ${allGuests}">
+            <td>
+                <a th:href="@{/guests/{id}(id=${guest.id})}"
+                   th:text="${guest.firstName}">Voornaam</a>
+            </td>
+            <td>
+                <a th:href="@{/guests/{id}(id=${guest.id})}"
+                   th:text="${guest.lastName}">Achternaam</a>
+            </td>
+            <td><img th:if="${guest.image != null}"
+                     th:src="@{/images/{id}(id=${guest.image.id})}"
+                     th:alt="${guest.firstName +' ' + guest.lastName}"
+                     style="width: 80px; height: 80px; object-fit: cover;">
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Nieuwe gast toevoegen</h2>
+    <form th:action="@{/guests/save}"
+          th:object="${newGuest}"
+          th:method="post"
+          enctype="multipart/form-data">
+    <tr>
+        <td>
+        <input type="hidden" th:field="*{id}">
+        </td>
+        <td>
+            <label for="firstName">Voornaam</label>
+            <input type="text" id="firstName" th:field="*{firstName}">
+            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+        </td>
+        <td>
+            <label for="lastName">Achternaam</label>
+            <input type="text" id="lastName" th:field="*{lastName}">
+            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+        </td>
+        <td>
+            <input type="file" id="imageFile"
+            name="imageFile"
+            accept="image/*">
+        </td>
+
+        <button type="submit">Opslaan</button>
+    </form>
+        </td>
+    </tr>
+
+</div>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+<div th:replace="~{fragments/general :: scripts}"></div>
+</body>
+</html>

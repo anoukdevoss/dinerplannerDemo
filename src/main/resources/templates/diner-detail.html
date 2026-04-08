@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="nl" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/general :: baseheader(~{:: title})}">
+    <title>Diner detailpagina</title>
+</head>
+<body>
+<nav th:replace="~{fragments/general :: navbar}"></nav>
+
+<div class="container">
+    <h1 th:text="|Details van ${diner.title}|">Diner details</h1>
+
+    <p th:if="${diner.description}">
+        <span th:text="${diner.description}">Diner description</span>
+    </p>
+
+    <p th:if="${diner.image != null
+                and !diner.image.isEmpty()}">
+        <img th:src="${diner.image}" style="max-width: 200px;"
+        th:alt="${diner.title}">
+    </p>
+
+    <h2>Gegevens</h2>
+    <ul>
+        <li><strong>Titel:</strong> <span th:text="${diner.title}"></span></li>
+        <li><strong>Datum:</strong> <span th:text="${diner.date}"></span></li>
+        <li><strong>Locatie:</strong> <span th:text="${diner.location}"></span></li>
+        <li><strong>Thema:</strong> <span th:text="${diner.thema}"></span></li>
+    </ul>
+
+    <a th:href="@{/diners/edit/{id}(id=${diner.id})}">Bewerken</a>
+
+    <form th:action="@{/diners/delete/{id}(id=${diner.id})}" method="post">
+        <button type="submit">Verwijderen</button>
+    </form>
+
+    <h2>Gasten</h2>
+    <p th:if="${#lists.isEmpty(diner.guests)}">Er zijn nog geen gasten toegevoegd.</p>
+    <ul th:if="${!#lists.isEmpty(diner.guests)}">
+        <li th:each="guest : ${diner.guests}" th:text="${guest.fullName}">Naam gast</li>
+    </ul>
+
+    <p>
+        <a th:href="@{/diners/edit/{id}(id=${diner.id})}">Bewerken</a>
+    </p>
+
+    <form th:action="@{/diners/delete/{id}(id=${diner.id})}" method="post">
+        <button type="submit">Verwijderen</button>
+    </form>
+
+    <h2>Menu's</h2>
+    <p th:if="${#lists.isEmpty(diner.menus)}">Er zijn nog geen menu's toegevoegd.</p>
+
+    <table th:if="${!#lists.isEmpty(diner.menus)}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Gepubliceerd</th>
+            <th>Acties</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="menu : ${diner.menus}">
+            <td th:text="${menu.id}">1</td>
+            <td th:text="${menu.published} ? 'Ja' : 'Nee'">Nee</td>
+            <td>
+                <form th:if="${!menu.published}"
+                      th:action="@{/menus/publish/{menuId}(menuId=${menu.id})}"
+                      method="post">
+                    <button type="submit">Publiceren</button>
+                </form>
+
+                <form th:if="${menu.published}"
+                      th:action="@{/menus/unpublish/{menuId}(menuId=${menu.id})}"
+                      method="post">
+                    <button type="submit">Depubliceren</button>
+                </form>
+
+                <form th:action="@{/menus/delete/{menuId}(menuId=${menu.id})}" method="post">
+                    <button type="submit">Verwijderen</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/menus/add/{dinerId}(dinerId=${diner.id})}" method="post">
+        <button type="submit">Menu toevoegen</button>
+    </form>
+
+    <p>
+        <a th:href="@{/diners}">Terug naar het overzicht</a>
+    </p>
+</div>
+
+<footer th:replace="~{fragments/general :: footer}"></footer>
+
+<div th:replace="~{fragments/general :: scripts}"></div>
+</body>
+</html>
