@@ -36,6 +36,8 @@ public class Diner {
     @NotBlank(message = "Thema mag niet leeg zijn")
     private String thema;
 
+    private String imagePath;
+
     @Column(nullable = true, length = 2000)
     private String description;
 
@@ -52,14 +54,15 @@ public class Diner {
     private List<Guest> guests = new ArrayList<>();
 
 
-    public Diner(String title, String date, String location, String thema) {
+    public Diner(String title, String date, String location, String thema, String imagePath) {
         this.title = title;
         this.date = date;
         this.location = location;
         this.thema = thema;
+        this.imagePath = imagePath;
     }
 
-    public Diner(){
+    public Diner() {
     }
 
     public String getTitle() {
@@ -92,6 +95,14 @@ public class Diner {
 
     public void setThema(String thema) {
         this.thema = thema;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public Long getId() {

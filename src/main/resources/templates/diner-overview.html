@@ -25,10 +25,11 @@
         <div th:each="diner : ${diners}">
              <div class="card" style="width: 18rem;">
                  <img class="card-img-top"
-                      th:if="${diner.image != null}"
-                      th:src="@{/diners/images/{id}(id=${diner.image.id})}"
-                      style="height: 200px; object-fit: cover;"
-                      th:alt="${diner.title + ' afbeelding'}">
+                      th:if="${diner.imagePath != null}"
+                      th:src="@{/images/{file}(file=${diner.imagePath})}"
+                      alt="Afbeelding"
+                      width="200"
+                      style="height: 200px; object-fit: cover;">
                  <div class="card-body">
                      <h5 class="card-title" th:text="${diner.title}">Card title</h5>
                      <span th:text="${diner.date}">Datum</span><br>

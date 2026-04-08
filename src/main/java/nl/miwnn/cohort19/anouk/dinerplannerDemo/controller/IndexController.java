@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 /**
@@ -20,8 +21,6 @@ import java.time.LocalTime;
 @Controller
 public class IndexController {
 
-    String naam = "Anouk";
-
     private static final Logger log =
             LoggerFactory.getLogger(IndexController.class);
 
@@ -30,7 +29,8 @@ public class IndexController {
         log.debug("Startpagina opgevraagd");
         log.info("Startpagina getoond om {}", LocalTime.now());
         model.addAttribute("activePage", "home");
-        model.addAttribute("naam", naam);
+        model.addAttribute("name", "Anouk");
+        model.addAttribute("date", LocalDate.now());
         return "index";
     }
 
