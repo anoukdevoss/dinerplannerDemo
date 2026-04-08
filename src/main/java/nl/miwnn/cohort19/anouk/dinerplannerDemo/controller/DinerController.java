@@ -149,7 +149,4 @@ public class DinerController {
         return "diner-detail";
     }
 
-    // test
-
-
 }
