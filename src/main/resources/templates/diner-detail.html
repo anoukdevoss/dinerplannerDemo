@@ -6,93 +6,124 @@
 <body>
 <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-<div class="container">
-    <h1 th:text="|Details van ${diner.title}|">Diner details</h1>
+<div class="container py-4">
 
-    <p th:if="${diner.description}">
-        <span th:text="${diner.description}">Diner description</span>
+    <h1 class="mb-3" th:text="|Details van ${diner.title}|">Diner details</h1>
+
+    <!-- Afbeelding -->
+    <div th:if="${diner.imagePath != null}" class="mb-3">
+        <img th:src="@{/images/{file}(file=${diner.imagePath})}"
+             th:alt="${diner.title}"
+             class="img-fluid rounded"
+             style="max-height: 300px;">
+    </div>
+
+    <!-- Beschrijving -->
+    <p th:if="${diner.description}" class="text-muted">
+        <span th:text="${diner.description}">Beschrijving</span>
     </p>
 
-    <p th:if="${diner.image != null
-                and !diner.image.isEmpty()}">
-        <img th:src="${diner.image}" style="max-width: 200px;"
-        th:alt="${diner.title}">
-    </p>
-
-    <h2>Gegevens</h2>
-    <ul>
-        <li><strong>Titel:</strong> <span th:text="${diner.title}"></span></li>
-        <li><strong>Datum:</strong> <span th:text="${diner.date}"></span></li>
-        <li><strong>Locatie:</strong> <span th:text="${diner.location}"></span></li>
-        <li><strong>Thema:</strong> <span th:text="${diner.thema}"></span></li>
+    <!-- Gegevens -->
+    <h2 class="mt-4">Gegevens</h2>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">
+            <strong>Titel:</strong> <span th:text="${diner.title}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Datum:</strong> <span th:text="${diner.date}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Locatie:</strong> <span th:text="${diner.location}"></span>
+        </li>
+        <li class="list-group-item">
+            <strong>Thema:</strong> <span th:text="${diner.thema}"></span>
+        </li>
     </ul>
 
-    <a th:href="@{/diners/edit/{id}(id=${diner.id})}">Bewerken</a>
+    <!-- Knoppen -->
+    <div class="mb-4">
+        <a th:href="@{/diners/edit/{id}(id=${diner.id})}" class="btn btn-warning">
+            Bewerken
+        </a>
 
-    <form th:action="@{/diners/delete/{id}(id=${diner.id})}" method="post">
-        <button type="submit">Verwijderen</button>
-    </form>
+        <form th:action="@{/diners/delete/{id}(id=${diner.id})}"
+              method="post"
+              style="display:inline;">
+            <button type="submit" class="btn btn-danger">
+                Verwijderen
+            </button>
+        </form>
+    </div>
 
+    <!-- Gasten -->
     <h2>Gasten</h2>
-    <p th:if="${#lists.isEmpty(diner.guests)}">Er zijn nog geen gasten toegevoegd.</p>
-    <ul th:if="${!#lists.isEmpty(diner.guests)}">
-        <li th:each="guest : ${diner.guests}" th:text="${guest.fullName}">Naam gast</li>
-    </ul>
-
-    <p>
-        <a th:href="@{/diners/edit/{id}(id=${diner.id})}">Bewerken</a>
+    <p th:if="${#lists.isEmpty(diner.guests)}" class="text-muted">
+        Nog geen gasten toegevoegd.
     </p>
 
-    <form th:action="@{/diners/delete/{id}(id=${diner.id})}" method="post">
-        <button type="submit">Verwijderen</button>
-    </form>
+    <ul class="list-group mb-4" th:if="${!#lists.isEmpty(diner.guests)}">
+        <li class="list-group-item"
+            th:each="guest : ${diner.guests}"
+            th:text="${guest.fullName}">
+        </li>
+    </ul>
 
+    <!-- Menu's -->
     <h2>Menu's</h2>
-    <p th:if="${#lists.isEmpty(diner.menus)}">Er zijn nog geen menu's toegevoegd.</p>
+    <p th:if="${#lists.isEmpty(diner.menus)}" class="text-muted">
+        Nog geen menu's toegevoegd.
+    </p>
 
-    <table th:if="${!#lists.isEmpty(diner.menus)}">
+    <table class="table" th:if="${!#lists.isEmpty(diner.menus)}">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Gepubliceerd</th>
+            <th>Status</th>
             <th>Acties</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="menu : ${diner.menus}">
-            <td th:text="${menu.id}">1</td>
-            <td th:text="${menu.published} ? 'Ja' : 'Nee'">Nee</td>
+            <td th:text="${menu.id}"></td>
+            <td th:text="${menu.published} ? 'Ja' : 'Nee'"></td>
             <td>
                 <form th:if="${!menu.published}"
                       th:action="@{/menus/publish/{menuId}(menuId=${menu.id})}"
-                      method="post">
-                    <button type="submit">Publiceren</button>
+                      method="post"
+                      style="display:inline;">
+                    <button class="btn btn-sm btn-success">Publiceren</button>
                 </form>
 
                 <form th:if="${menu.published}"
                       th:action="@{/menus/unpublish/{menuId}(menuId=${menu.id})}"
-                      method="post">
-                    <button type="submit">Depubliceren</button>
+                      method="post"
+                      style="display:inline;">
+                    <button class="btn btn-sm btn-secondary">Depubliceren</button>
                 </form>
 
-                <form th:action="@{/menus/delete/{menuId}(menuId=${menu.id})}" method="post">
-                    <button type="submit">Verwijderen</button>
+                <form th:action="@{/menus/delete/{menuId}(menuId=${menu.id})}"
+                      method="post"
+                      style="display:inline;">
+                    <button class="btn btn-sm btn-danger">Verwijderen</button>
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
+
     <form th:action="@{/menus/add/{dinerId}(dinerId=${diner.id})}" method="post">
-        <button type="submit">Menu toevoegen</button>
+        <button class="btn btn-primary">Menu toevoegen</button>
     </form>
 
-    <p>
-        <a th:href="@{/diners}">Terug naar het overzicht</a>
-    </p>
+    <div class="mt-4">
+        <a th:href="@{/diners}" class="btn btn-outline-secondary">
+            Terug naar overzicht
+        </a>
+    </div>
+
 </div>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
-
 <div th:replace="~{fragments/general :: scripts}"></div>
 </body>
 </html>

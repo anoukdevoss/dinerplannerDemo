@@ -6,72 +6,84 @@
 <body>
 <nav th:replace="~{fragments/general :: navbar}"></nav>
 
-<div class="container">
-    <h1>Gasten</h1>
+<div class="container py-4">
+    <h1 class="mb-4">Gasten</h1>
 
-    <h2>Overzicht van gasten</h2>
-    <table>
-        <thead>
+    <h2 class="mb-3">Overzicht van gasten</h2>
+    <table class="table table-striped table-hover align-middle mb-5">
+        <thead class="table-light">
         <tr>
-            <td>Voornaam</td>
-            <td>Achternaam</td>
-            <td>Profielfoto</td>
+            <th>Voornaam</th>
+            <th>Achternaam</th>
+            <th>Profielfoto</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="guest : ${allGuests}">
             <td>
                 <a th:href="@{/guests/{id}(id=${guest.id})}"
-                   th:text="${guest.firstName}">Voornaam</a>
+                   th:text="${guest.firstName}"
+                   class="text-decoration-none">
+                    Voornaam
+                </a>
             </td>
             <td>
                 <a th:href="@{/guests/{id}(id=${guest.id})}"
-                   th:text="${guest.lastName}">Achternaam</a>
+                   th:text="${guest.lastName}"
+                   class="text-decoration-none">
+                    Achternaam
+                </a>
             </td>
-            <td><img th:if="${guest.image != null}"
+            <td>
+                <img th:if="${guest.image != null}"
                      th:src="@{/images/{id}(id=${guest.image.id})}"
-                     th:alt="${guest.firstName +' ' + guest.lastName}"
+                     th:alt="${guest.firstName + ' ' + guest.lastName}"
+                     class="rounded"
                      style="width: 80px; height: 80px; object-fit: cover;">
             </td>
-
         </tr>
         </tbody>
     </table>
 
-    <h2>Nieuwe gast toevoegen</h2>
+    <h2 class="mb-3">Nieuwe gast toevoegen</h2>
     <form th:action="@{/guests/save}"
           th:object="${newGuest}"
-          th:method="post"
-          enctype="multipart/form-data">
-    <tr>
-        <td>
+          method="post"
+          enctype="multipart/form-data"
+          class="border rounded p-4 bg-light">
+
         <input type="hidden" th:field="*{id}">
-        </td>
-        <td>
-            <label for="firstName">Voornaam</label>
-            <input type="text" id="firstName" th:field="*{firstName}">
-            <p th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
-        </td>
-        <td>
-            <label for="lastName">Achternaam</label>
-            <input type="text" id="lastName" th:field="*{lastName}">
-            <p th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
-        </td>
-        <td>
-            <input type="file" id="imageFile"
-            name="imageFile"
-            accept="image/*">
-        </td>
 
-        <button type="submit">Opslaan</button>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Voornaam</label>
+            <input type="text" id="firstName" th:field="*{firstName}" class="form-control">
+            <p th:if="${#fields.hasErrors('firstName')}"
+               th:errors="*{firstName}"
+               class="text-danger small mb-0"></p>
+        </div>
+
+        <div class="mb-3">
+            <label for="lastName" class="form-label">Achternaam</label>
+            <input type="text" id="lastName" th:field="*{lastName}" class="form-control">
+            <p th:if="${#fields.hasErrors('lastName')}"
+               th:errors="*{lastName}"
+               class="text-danger small mb-0"></p>
+        </div>
+
+        <div class="mb-3">
+            <label for="imageFile" class="form-label">Profielfoto</label>
+            <input type="file"
+                   id="imageFile"
+                   name="imageFile"
+                   accept="image/*"
+                   class="form-control">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Opslaan</button>
     </form>
-        </td>
-    </tr>
-
 </div>
 
 <footer th:replace="~{fragments/general :: footer}"></footer>
-
 <div th:replace="~{fragments/general :: scripts}"></div>
 </body>
 </html>
