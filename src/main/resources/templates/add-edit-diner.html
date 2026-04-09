@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/general :: baseheader(~{:: title})}">
+<head th:replace="~{fragments/general :: head('Diner toevoegen of bewerken')}">
   <title>Diner toevoegen of bewerken</title>
 </head>
 <body>
@@ -12,6 +12,7 @@
   <form th:action="@{/diners/save}" th:object="${diner}" method="post" enctype="multipart/form-data">
 
     <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{imagePath}">
 
     <div>
       <label for="title">Titel</label>
@@ -51,7 +52,7 @@
 
     <div>
       <label for="guests">Gasten</label>
-      <select id="guests" th:field="*{guests}" multiple>
+      <select id="guests" th:field="*{guests}">
         <option th:each="guest : ${allGuests}"
                 th:value="${guest.id}"
                 th:text="${guest.fullName}">
@@ -74,7 +75,8 @@
         </textarea>
     </div>
 
-    <button type="submit" th:text="${diner.id} != null ? 'Opslaan' : 'Toevoegen'">Opslaan</button>  </form>
+    <button type="submit" th:text="${diner.id} != null ? 'Opslaan' : 'Toevoegen'">Opslaan</button>
+  </form>
 
   <a th:href="@{/diners}">Ga terug naar het overzicht </a>
 </div>

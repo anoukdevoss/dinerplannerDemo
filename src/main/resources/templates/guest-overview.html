@@ -36,7 +36,7 @@
             </td>
             <td>
                 <img th:if="${guest.image != null}"
-                     th:src="@{/images/{id}(id=${guest.image.id})}"
+                     th:src="@{/guests/images/{id}(id=${guest.image.id})}"
                      th:alt="${guest.firstName + ' ' + guest.lastName}"
                      class="rounded"
                      style="width: 80px; height: 80px; object-fit: cover;">

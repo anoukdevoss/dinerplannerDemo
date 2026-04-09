@@ -25,7 +25,19 @@ public class ImageController {
     }
     @GetMapping("/diners/images/{id}")
     @ResponseBody
-    public ResponseEntity<byte[]> showImage(@PathVariable Long id) {
+    public ResponseEntity<byte[]> showDinerImage(@PathVariable Long id) {
+        Image image = imageRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Afbeelding niet gevonden"));
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(image.getContentType()))
+                .body(image.getData());
+    }
+
+    @GetMapping("/guests/images/{id}")
+    @ResponseBody
+    public ResponseEntity<byte[]> showGuestImage(@PathVariable Long id) {
         Image image = imageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Afbeelding niet gevonden"));

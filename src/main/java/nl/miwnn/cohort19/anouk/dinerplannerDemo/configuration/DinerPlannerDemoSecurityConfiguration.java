@@ -10,12 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.UUID;
-
 /**
  * Author: Anouk de Vos
  * Configuration for security
  */
+
 @Configuration
 @EnableWebSecurity
 public class DinerPlannerDemoSecurityConfiguration {
@@ -32,6 +31,8 @@ public class DinerPlannerDemoSecurityConfiguration {
                                 "/",
                                 "/diners",
                                 "/diners/{dinerId}",
+                                "/images/**",
+                                "/guests/images/**",
                                 "/guests",
                                 "/guests/{id}",
                                 "/webjars/**"

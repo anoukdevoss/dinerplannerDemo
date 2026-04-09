@@ -85,7 +85,7 @@ public class GuestController {
         return "guest-overview";
     }
 
-        if (!imageFile.isEmpty()) {
+        if (imageFile != null && !imageFile.isEmpty()) {
             Image image = new Image();
             image.setData(imageFile.getBytes());
             image.setContentType(imageFile.getContentType());
